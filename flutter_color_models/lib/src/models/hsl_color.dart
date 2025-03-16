@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/painting.dart' show Color;
 import 'package:color_models/color_models.dart' as cm;
 import '../color_model.dart';
@@ -196,4 +198,36 @@ class HslColor extends cm.HslColor
 
   @override
   HslColor convert(cm.ColorModel other) => other.toHslColor().cast();
+
+  @override
+  // TODO: implement a
+  double get a => throw UnimplementedError();
+
+  @override
+  // TODO: implement b
+  double get b => throw UnimplementedError();
+
+  @override
+  // TODO: implement colorSpace
+  ColorSpace get colorSpace => throw UnimplementedError();
+
+  @override
+  // TODO: implement g
+  double get g => throw UnimplementedError();
+
+  @override
+  // TODO: implement r
+  double get r => throw UnimplementedError();
+
+  @override
+  int toARGB32() {
+    // TODO: implement toARGB32
+    throw UnimplementedError();
+  }
+
+  @override
+  Color withValues({double? alpha, double? red, double? green, double? blue, ColorSpace? colorSpace}) {
+    // TODO: implement withValues
+    throw UnimplementedError();
+  }
 }

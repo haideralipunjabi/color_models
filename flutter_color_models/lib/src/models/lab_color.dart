@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/painting.dart' show Color;
 import 'package:color_models/color_models.dart' as cm;
 import '../color_model.dart';
@@ -11,11 +13,11 @@ class LabColor extends cm.LabColor
     implements ColorModel {
   /// {@macro color_models.LabColor.constructor}
   const LabColor(num lightness, num a, num b, [int alpha = 255])
-    : assert(lightness >= 0 && lightness <= 100),
-      assert(a >= -128 && a <= 127),
-      assert(b >= -128 && b <= 127),
-      assert(alpha >= 0 && alpha <= 255),
-      super(lightness, a, b, alpha);
+      : assert(lightness >= 0 && lightness <= 100),
+        assert(a >= -128 && a <= 127),
+        assert(b >= -128 && b <= 127),
+        assert(alpha >= 0 && alpha <= 255),
+        super(lightness, a, b, alpha);
 
   @override
   int get value => toColor().value;
@@ -203,4 +205,38 @@ class LabColor extends cm.LabColor
 
   @override
   LabColor convert(cm.ColorModel other) => other.toLabColor().cast();
+
+  @override
+  // TODO: implement colorSpace
+  ColorSpace get colorSpace => throw UnimplementedError();
+
+  @override
+  // TODO: implement g
+  double get g => throw UnimplementedError();
+
+  @override
+  // TODO: implement r
+  double get r => throw UnimplementedError();
+
+  @override
+  double get a => throw UnimplementedError();
+  
+  @override
+  double get b => throw UnimplementedError();
+  @override
+  int toARGB32() {
+    // TODO: implement toARGB32
+    throw UnimplementedError();
+  }
+
+  @override
+  Color withValues(
+      {double? alpha,
+      double? red,
+      double? green,
+      double? blue,
+      ColorSpace? colorSpace}) {
+    // TODO: implement withValues
+    throw UnimplementedError();
+  }
 }
