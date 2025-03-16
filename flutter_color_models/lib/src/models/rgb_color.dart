@@ -9,16 +9,12 @@ class RgbColor extends cm.RgbColor
     with AsColor, CastToColor
     implements ColorModel {
   /// {@macro color_models.RgbColor.constructor}
-  const RgbColor(
-    num red,
-    num green,
-    num blue, [
-    int alpha = 255,
-  ])  : assert(red >= 0 && red <= 255),
-        assert(green >= 0 && green <= 255),
-        assert(blue >= 0 && green <= 255),
-        assert(alpha >= 0 && alpha <= 255),
-        super(red, green, blue, alpha);
+  const RgbColor(num red, num green, num blue, [int alpha = 255])
+    : assert(red >= 0 && red <= 255),
+      assert(green >= 0 && green <= 255),
+      assert(blue >= 0 && green <= 255),
+      assert(alpha >= 0 && alpha <= 255),
+      super(red, green, blue, alpha);
 
   @override
   int get value => toColor().value;
@@ -38,9 +34,12 @@ class RgbColor extends cm.RgbColor
   }) {
     assert(steps > 0);
     return super
-        .lerpTo(color, steps,
-            colorSpace: colorSpace,
-            excludeOriginalColors: excludeOriginalColors)
+        .lerpTo(
+          color,
+          steps,
+          colorSpace: colorSpace,
+          excludeOriginalColors: excludeOriginalColors,
+        )
         .map<RgbColor>((color) => color.cast())
         .toList();
   }
@@ -111,7 +110,7 @@ class RgbColor extends cm.RgbColor
   }
 
   @override
-  RgbColor withValues(List<num> values) {
+  RgbColor withColorValues(List<num> values) {
     assert(values.length == 3 || values.length == 4);
     assert(values[0] >= 0 && values[0] <= 255);
     assert(values[1] >= 0 && values[1] <= 255);

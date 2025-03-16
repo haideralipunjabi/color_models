@@ -30,13 +30,9 @@ class OklabColor extends ColorModel {
   /// __See:__ https://bottosson.github.io/posts/oklab/
   ///
   /// {@endtemplate}
-  const OklabColor(
-    this.lightness,
-    this.a,
-    this.b, [
-    int alpha = 255,
-  ])  : assert(alpha >= 0 && alpha <= 255),
-        super(alpha: alpha);
+  const OklabColor(this.lightness, this.a, this.b, [int alpha = 255])
+    : assert(alpha >= 0 && alpha <= 255),
+      super(alpha: alpha);
 
   /// Lightness represents the black to white value.
   ///
@@ -84,9 +80,12 @@ class OklabColor extends ColorModel {
   }) {
     assert(steps > 0);
     return super
-        .lerpTo(color, steps,
-            colorSpace: colorSpace,
-            excludeOriginalColors: excludeOriginalColors)
+        .lerpTo(
+          color,
+          steps,
+          colorSpace: colorSpace,
+          excludeOriginalColors: excludeOriginalColors,
+        )
         .cast<OklabColor>();
   }
 
@@ -108,15 +107,21 @@ class OklabColor extends ColorModel {
   @override
   OklabColor warmer(num amount, {bool relative = true}) {
     assert(amount > 0);
-    return ColorAdjustments.warmer(this, amount, relative: relative)
-        .toOklabColor();
+    return ColorAdjustments.warmer(
+      this,
+      amount,
+      relative: relative,
+    ).toOklabColor();
   }
 
   @override
   OklabColor cooler(num amount, {bool relative = true}) {
     assert(amount > 0);
-    return ColorAdjustments.cooler(this, amount, relative: relative)
-        .toOklabColor();
+    return ColorAdjustments.cooler(
+      this,
+      amount,
+      relative: relative,
+    ).toOklabColor();
   }
 
   /// Returns this [OklabColor] modified with the provided [hue] value.
@@ -149,19 +154,14 @@ class OklabColor extends ColorModel {
   }
 
   @override
-  OklabColor withValues(List<num> values) {
+  OklabColor withColorValues(List<num> values) {
     assert(values.length == 3 || values.length == 4);
     if (values.length == 4) assert(values[3] >= 0 && values[3] <= 255);
     return OklabColor.fromList(values);
   }
 
   @override
-  OklabColor copyWith({
-    double? lightness,
-    double? a,
-    double? b,
-    int? alpha,
-  }) {
+  OklabColor copyWith({double? lightness, double? a, double? b, int? alpha}) {
     assert(lightness == null || (lightness >= 0 && lightness <= 1.0));
     assert(a == null || (a >= 0 && a <= 1.0));
     assert(b == null || (b >= 0 && b <= 1.0));
@@ -212,8 +212,12 @@ class OklabColor extends ColorModel {
     assert(values.length == 3 || values.length == 4);
     if (values.length == 4) assert(values[3] >= 0 && values[3] <= 255);
     final alpha = values.length == 4 ? values[3].round() : 255;
-    return OklabColor(values[0].toDouble(), values[1].toDouble(),
-        values[2].toDouble(), alpha);
+    return OklabColor(
+      values[0].toDouble(),
+      values[1].toDouble(),
+      values[2].toDouble(),
+      alpha,
+    );
   }
 
   /// {@template color_models.OklabColor.fromHex}

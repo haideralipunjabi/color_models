@@ -10,16 +10,12 @@ class XyzColor extends cm.XyzColor
     with AsColor, RgbGetters, CastToColor
     implements ColorModel {
   /// /// {@macro color_models.XyzColor.constructor}
-  const XyzColor(
-    num x,
-    num y,
-    num z, [
-    int alpha = 255,
-  ])  : assert(x >= 0),
-        assert(y >= 0),
-        assert(z >= 0),
-        assert(alpha >= 0 && alpha <= 255),
-        super(x, y, z, alpha);
+  const XyzColor(num x, num y, num z, [int alpha = 255])
+    : assert(x >= 0),
+      assert(y >= 0),
+      assert(z >= 0),
+      assert(alpha >= 0 && alpha <= 255),
+      super(x, y, z, alpha);
 
   @override
   int get value => toColor().value;
@@ -39,9 +35,12 @@ class XyzColor extends cm.XyzColor
   }) {
     assert(steps > 0);
     return super
-        .lerpTo(color, steps,
-            colorSpace: colorSpace,
-            excludeOriginalColors: excludeOriginalColors)
+        .lerpTo(
+          color,
+          steps,
+          colorSpace: colorSpace,
+          excludeOriginalColors: excludeOriginalColors,
+        )
         .map<XyzColor>((color) => color.cast())
         .toList();
   }
@@ -112,7 +111,7 @@ class XyzColor extends cm.XyzColor
   }
 
   @override
-  XyzColor withValues(List<num> values) {
+  XyzColor withColorValues(List<num> values) {
     assert(values.length == 3 || values.length == 4);
     assert(values[0] >= 0 && values[0] <= 100);
     assert(values[1] >= 0 && values[1] <= 100);
@@ -122,22 +121,12 @@ class XyzColor extends cm.XyzColor
   }
 
   @override
-  XyzColor copyWith({
-    num? x,
-    num? y,
-    num? z,
-    int? alpha,
-  }) {
+  XyzColor copyWith({num? x, num? y, num? z, int? alpha}) {
     assert(x == null || x >= 0);
     assert(y == null || y >= 0);
     assert(z == null || z >= 0);
     assert(alpha == null || (alpha >= 0 && alpha <= 255));
-    return XyzColor(
-      x ?? this.x,
-      y ?? this.y,
-      z ?? this.z,
-      alpha ?? this.alpha,
-    );
+    return XyzColor(x ?? this.x, y ?? this.y, z ?? this.z, alpha ?? this.alpha);
   }
 
   @override

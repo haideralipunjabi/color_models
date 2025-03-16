@@ -26,16 +26,12 @@ class HslColor extends ColorModel {
   /// [alpha] must be `>= 0` and `<= 255`.
   ///
   /// {@endtemplate}
-  const HslColor(
-    this.hue,
-    this.saturation,
-    this.lightness, [
-    int alpha = 255,
-  ])  : assert(hue >= 0 && hue <= 360),
-        assert(saturation >= 0 && saturation <= 100),
-        assert(lightness >= 0 && lightness <= 100),
-        assert(alpha >= 0 && alpha <= 255),
-        super(alpha: alpha);
+  const HslColor(this.hue, this.saturation, this.lightness, [int alpha = 255])
+    : assert(hue >= 0 && hue <= 360),
+      assert(saturation >= 0 && saturation <= 100),
+      assert(lightness >= 0 && lightness <= 100),
+      assert(alpha >= 0 && alpha <= 255),
+      super(alpha: alpha);
 
   /// The hue value of this color.
   ///
@@ -83,9 +79,12 @@ class HslColor extends ColorModel {
   }) {
     assert(steps > 0);
     return super
-        .lerpTo(color, steps,
-            colorSpace: colorSpace,
-            excludeOriginalColors: excludeOriginalColors)
+        .lerpTo(
+          color,
+          steps,
+          colorSpace: colorSpace,
+          excludeOriginalColors: excludeOriginalColors,
+        )
         .cast<HslColor>();
   }
 
@@ -144,7 +143,7 @@ class HslColor extends ColorModel {
   }
 
   @override
-  HslColor withValues(List<num> values) {
+  HslColor withColorValues(List<num> values) {
     assert(values.length == 3 || values.length == 4);
     assert(values[0] >= 0 && values[0] <= 360);
     assert(values[1] >= 0 && values[1] <= 100);
@@ -188,19 +187,19 @@ class HslColor extends ColorModel {
   /// Returns a fixed-length list containing the [hue], [saturation],
   /// and [lightness] values factored to be on 0 to 1 scale.
   List<double> toFactoredList() => List<double>.from(<double>[
-        hue / 360,
-        saturation / 100,
-        lightness / 100,
-      ], growable: false);
+    hue / 360,
+    saturation / 100,
+    lightness / 100,
+  ], growable: false);
 
   /// Returns a fixed-length list containing the [hue], [saturation],
   /// [lightness], and [alpha] values factored to be on 0 to 1 scale.
   List<double> toFactoredListWithAlpha() => List<double>.from(<double>[
-        hue / 360,
-        saturation / 100,
-        lightness / 100,
-        alpha / 255,
-      ], growable: false);
+    hue / 360,
+    saturation / 100,
+    lightness / 100,
+    alpha / 255,
+  ], growable: false);
 
   /// {@template color_models.HslColor.from}
   ///

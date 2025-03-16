@@ -26,16 +26,12 @@ class LabColor extends ColorModel {
   /// [alpha] must be `>= 0` and `<= 255`.
   ///
   /// {@endtemplate}
-  const LabColor(
-    this.lightness,
-    this.a,
-    this.b, [
-    int alpha = 255,
-  ])  : assert(lightness >= 0 && lightness <= 100),
-        assert(a >= -128 && a <= 127),
-        assert(b >= -128 && b <= 127),
-        assert(alpha >= 0 && alpha <= 255),
-        super(alpha: alpha);
+  const LabColor(this.lightness, this.a, this.b, [int alpha = 255])
+    : assert(lightness >= 0 && lightness <= 100),
+      assert(a >= -128 && a <= 127),
+      assert(b >= -128 && b <= 127),
+      assert(alpha >= 0 && alpha <= 255),
+      super(alpha: alpha);
 
   /// Lightness represents the black to white value.
   ///
@@ -87,15 +83,22 @@ class LabColor extends ColorModel {
   }) {
     assert(steps > 0);
     return super
-        .lerpTo(color, steps,
-            colorSpace: colorSpace,
-            excludeOriginalColors: excludeOriginalColors)
+        .lerpTo(
+          color,
+          steps,
+          colorSpace: colorSpace,
+          excludeOriginalColors: excludeOriginalColors,
+        )
         .cast<LabColor>();
   }
 
   @override
   LabColor get inverted => LabColor(
-      100 - lightness, 255 - (a + 128) - 128, 255 - (b + 128) - 128, alpha);
+    100 - lightness,
+    255 - (a + 128) - 128,
+    255 - (b + 128) - 128,
+    alpha,
+  );
 
   @override
   LabColor get opposite => rotateHue(180);
@@ -111,15 +114,21 @@ class LabColor extends ColorModel {
   @override
   LabColor warmer(num amount, {bool relative = true}) {
     assert(amount > 0);
-    return ColorAdjustments.warmer(this, amount, relative: relative)
-        .toLabColor();
+    return ColorAdjustments.warmer(
+      this,
+      amount,
+      relative: relative,
+    ).toLabColor();
   }
 
   @override
   LabColor cooler(num amount, {bool relative = true}) {
     assert(amount > 0);
-    return ColorAdjustments.cooler(this, amount, relative: relative)
-        .toLabColor();
+    return ColorAdjustments.cooler(
+      this,
+      amount,
+      relative: relative,
+    ).toLabColor();
   }
 
   /// Returns this [LabColor] modified with the provided [hue] value.
@@ -148,7 +157,7 @@ class LabColor extends ColorModel {
   }
 
   @override
-  LabColor withValues(List<num> values) {
+  LabColor withColorValues(List<num> values) {
     assert(values.length == 3 || values.length == 4);
     assert(values[0] >= 0 && values[0] <= 100);
     assert(values[1] >= -128 && values[1] <= 127);
@@ -248,8 +257,12 @@ class LabColor extends ColorModel {
     assert(values[2] >= 0 && values[2] <= 1);
     if (values.length == 4) assert(values[3] >= 0 && values[3] <= 1);
     final alpha = values.length == 4 ? (values[3] * 255).round() : 255;
-    return LabColor(values[0] * 100, (values[1] * 255) - 128,
-        (values[2] * 255) - 128, alpha);
+    return LabColor(
+      values[0] * 100,
+      (values[1] * 255) - 128,
+      (values[2] * 255) - 128,
+      alpha,
+    );
   }
 
   /// {@template color_models.LabColor.random}

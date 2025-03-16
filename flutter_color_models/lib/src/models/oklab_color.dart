@@ -10,13 +10,9 @@ class OklabColor extends cm.OklabColor
     with AsColor, RgbGetters, CastToColor
     implements ColorModel {
   /// {@macro color_models.OklabColor.constructor}
-  const OklabColor(
-    double lightness,
-    double a,
-    double b, [
-    int alpha = 255,
-  ])  : assert(alpha >= 0 && alpha <= 255),
-        super(lightness, a, b, alpha);
+  const OklabColor(double lightness, double a, double b, [int alpha = 255])
+    : assert(alpha >= 0 && alpha <= 255),
+      super(lightness, a, b, alpha);
 
   @override
   int get value => toColor().value;
@@ -36,9 +32,12 @@ class OklabColor extends cm.OklabColor
   }) {
     assert(steps > 0);
     return super
-        .lerpTo(color, steps,
-            colorSpace: colorSpace,
-            excludeOriginalColors: excludeOriginalColors)
+        .lerpTo(
+          color,
+          steps,
+          colorSpace: colorSpace,
+          excludeOriginalColors: excludeOriginalColors,
+        )
         .map<OklabColor>((color) => color.cast())
         .toList();
   }
@@ -109,11 +108,12 @@ class OklabColor extends cm.OklabColor
   }
 
   @override
-  OklabColor withValues(List<num> values) {
+  OklabColor withColorValues(List<num> values) {
     assert(values.length == 3 || values.length == 4);
     if (values.length == 4) assert(values[3] >= 0 && values[3] <= 255);
     return OklabColor.fromList(
-        values.map<double>((value) => value.toDouble()).toList());
+      values.map<double>((value) => value.toDouble()).toList(),
+    );
   }
 
   @override

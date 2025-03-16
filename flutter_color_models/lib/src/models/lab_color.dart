@@ -10,16 +10,12 @@ class LabColor extends cm.LabColor
     with AsColor, RgbGetters, CastToColor
     implements ColorModel {
   /// {@macro color_models.LabColor.constructor}
-  const LabColor(
-    num lightness,
-    num a,
-    num b, [
-    int alpha = 255,
-  ])  : assert(lightness >= 0 && lightness <= 100),
-        assert(a >= -128 && a <= 127),
-        assert(b >= -128 && b <= 127),
-        assert(alpha >= 0 && alpha <= 255),
-        super(lightness, a, b, alpha);
+  const LabColor(num lightness, num a, num b, [int alpha = 255])
+    : assert(lightness >= 0 && lightness <= 100),
+      assert(a >= -128 && a <= 127),
+      assert(b >= -128 && b <= 127),
+      assert(alpha >= 0 && alpha <= 255),
+      super(lightness, a, b, alpha);
 
   @override
   int get value => toColor().value;
@@ -39,9 +35,12 @@ class LabColor extends cm.LabColor
   }) {
     assert(steps > 0);
     return super
-        .lerpTo(color, steps,
-            colorSpace: colorSpace,
-            excludeOriginalColors: excludeOriginalColors)
+        .lerpTo(
+          color,
+          steps,
+          colorSpace: colorSpace,
+          excludeOriginalColors: excludeOriginalColors,
+        )
         .map<LabColor>((color) => color.cast())
         .toList();
   }
@@ -112,7 +111,7 @@ class LabColor extends cm.LabColor
   }
 
   @override
-  LabColor withValues(List<num> values) {
+  LabColor withColorValues(List<num> values) {
     assert(values.length == 3 || values.length == 4);
     assert(values[0] >= 0 && values[0] <= 100);
     assert(values[1] >= -128 && values[1] <= 127);
@@ -167,8 +166,12 @@ class LabColor extends cm.LabColor
     assert(values[2] >= 0 && values[2] <= 1);
     if (values.length == 4) assert(values[3] >= 0 && values[3] <= 1);
     final alpha = values.length == 4 ? (values[3] * 255).round() : 255;
-    return LabColor(values[0] * 100, (values[1] * 255) - 128,
-        (values[2] * 255) - 128, alpha);
+    return LabColor(
+      values[0] * 100,
+      (values[1] * 255) - 128,
+      (values[2] * 255) - 128,
+      alpha,
+    );
   }
 
   /// {@macro color_models.LabColor.random}

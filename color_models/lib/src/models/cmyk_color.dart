@@ -30,12 +30,12 @@ class CmykColor extends ColorModel {
     this.yellow,
     this.black, [
     int alpha = 255,
-  ])  : assert(cyan >= 0 && cyan <= 100),
-        assert(magenta >= 0 && magenta <= 100),
-        assert(yellow >= 0 && yellow <= 100),
-        assert(black >= 0 && black <= 100),
-        assert(alpha >= 0 && alpha <= 255),
-        super(alpha: alpha);
+  ]) : assert(cyan >= 0 && cyan <= 100),
+       assert(magenta >= 0 && magenta <= 100),
+       assert(yellow >= 0 && yellow <= 100),
+       assert(black >= 0 && black <= 100),
+       assert(alpha >= 0 && alpha <= 255),
+       super(alpha: alpha);
 
   /// The cyan value of this color.
   ///
@@ -88,9 +88,12 @@ class CmykColor extends ColorModel {
   }) {
     assert(steps > 0);
     return super
-        .lerpTo(color, steps,
-            colorSpace: colorSpace,
-            excludeOriginalColors: excludeOriginalColors)
+        .lerpTo(
+          color,
+          steps,
+          colorSpace: colorSpace,
+          excludeOriginalColors: excludeOriginalColors,
+        )
         .cast<CmykColor>();
   }
 
@@ -98,7 +101,8 @@ class CmykColor extends ColorModel {
   CmykColor get inverted {
     final values = toList();
     return CmykColor.fromList(
-        List<num>.generate(values.length, (i) => 100 - values[i])..add(alpha));
+      List<num>.generate(values.length, (i) => 100 - values[i])..add(alpha),
+    );
   }
 
   @override
@@ -116,16 +120,22 @@ class CmykColor extends ColorModel {
   CmykColor warmer(num amount, {bool relative = true}) {
     assert(amount > 0);
     if (relative) assert(amount <= 100);
-    return ColorAdjustments.warmer(this, amount, relative: relative)
-        .toCmykColor();
+    return ColorAdjustments.warmer(
+      this,
+      amount,
+      relative: relative,
+    ).toCmykColor();
   }
 
   @override
   CmykColor cooler(num amount, {bool relative = true}) {
     assert(amount > 0);
     if (relative) assert(amount <= 100);
-    return ColorAdjustments.cooler(this, amount, relative: relative)
-        .toCmykColor();
+    return ColorAdjustments.cooler(
+      this,
+      amount,
+      relative: relative,
+    ).toCmykColor();
   }
 
   /// Returns this [XyzColor] modified with the provided [hue] value.
@@ -154,7 +164,7 @@ class CmykColor extends ColorModel {
   }
 
   @override
-  CmykColor withValues(List<num> values) {
+  CmykColor withColorValues(List<num> values) {
     assert(values.length == 4 || values.length == 5);
     assert(values[0] >= 0 && values[0] <= 100);
     assert(values[1] >= 0 && values[1] <= 100);
@@ -201,9 +211,13 @@ class CmykColor extends ColorModel {
   /// Returns a fixed-length list containing the [cyan], [magenta],
   /// [yellow], [black], and [alpha] values, in that order.
   @override
-  List<num> toListWithAlpha() =>
-      List<num>.from(<num>[cyan, magenta, yellow, black, alpha],
-          growable: false);
+  List<num> toListWithAlpha() => List<num>.from(<num>[
+    cyan,
+    magenta,
+    yellow,
+    black,
+    alpha,
+  ], growable: false);
 
   /// Returns a fixed-length list containing the [cyan], [magenta],
   /// [yelllow], and [black] values factored to be on 0 to 1 scale.
@@ -213,12 +227,12 @@ class CmykColor extends ColorModel {
   /// Returns a fixed-length list containing the [cyan], [magenta], [yelllow],
   /// [black], and [alpha] values factored to be on 0 to 1 scale.
   List<double> toFactoredListWithAlpha() => List<double>.from(<double>[
-        cyan / 100,
-        magenta / 100,
-        yellow / 100,
-        black / 100,
-        alpha / 255,
-      ], growable: false);
+    cyan / 100,
+    magenta / 100,
+    yellow / 100,
+    black / 100,
+    alpha / 255,
+  ], growable: false);
 
   /// {@template color_models.CmykColor.from}
   ///
@@ -278,8 +292,13 @@ class CmykColor extends ColorModel {
     assert(values[3] >= 0 && values[3] <= 1);
     if (values.length == 5) assert(values[4] >= 0 && values[4] <= 255);
     final alpha = values.length == 5 ? (values[4] * 255).round() : 255;
-    return CmykColor(values[0] * 100, values[1] * 100, values[2] * 100,
-        values[3] * 100, alpha);
+    return CmykColor(
+      values[0] * 100,
+      values[1] * 100,
+      values[2] * 100,
+      values[3] * 100,
+      alpha,
+    );
   }
 
   /// {@template color_models.CmykColor.random}

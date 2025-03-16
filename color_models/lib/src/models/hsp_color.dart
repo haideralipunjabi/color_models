@@ -35,11 +35,11 @@ class HspColor extends ColorModel {
     this.saturation,
     this.perceivedBrightness, [
     int alpha = 255,
-  ])  : assert(hue >= 0 && hue <= 360),
-        assert(saturation >= 0 && saturation <= 100),
-        assert(perceivedBrightness >= 0 && perceivedBrightness <= 100),
-        assert(alpha >= 0 && alpha <= 255),
-        super(alpha: alpha);
+  ]) : assert(hue >= 0 && hue <= 360),
+       assert(saturation >= 0 && saturation <= 100),
+       assert(perceivedBrightness >= 0 && perceivedBrightness <= 100),
+       assert(alpha >= 0 && alpha <= 255),
+       super(alpha: alpha);
 
   /// The hue value of this color.
   ///
@@ -87,9 +87,12 @@ class HspColor extends ColorModel {
   }) {
     assert(steps > 0);
     return super
-        .lerpTo(color, steps,
-            colorSpace: colorSpace,
-            excludeOriginalColors: excludeOriginalColors)
+        .lerpTo(
+          color,
+          steps,
+          colorSpace: colorSpace,
+          excludeOriginalColors: excludeOriginalColors,
+        )
         .cast<HspColor>();
   }
 
@@ -97,7 +100,11 @@ class HspColor extends ColorModel {
   /// [saturation] and [perceivedBrightness] values.
   @override
   HspColor get inverted => HspColor(
-      (hue + 180) % 360, 100 - saturation, 100 - perceivedBrightness, alpha);
+    (hue + 180) % 360,
+    100 - saturation,
+    100 - perceivedBrightness,
+    alpha,
+  );
 
   @override
   HspColor get opposite => rotateHue(180);
@@ -148,7 +155,7 @@ class HspColor extends ColorModel {
   }
 
   @override
-  HspColor withValues(List<num> values) {
+  HspColor withColorValues(List<num> values) {
     assert(values.length == 3 || values.length == 4);
     assert(values[0] >= 0 && values[0] <= 360);
     assert(values[1] >= 0 && values[1] <= 100);
@@ -166,8 +173,10 @@ class HspColor extends ColorModel {
   }) {
     assert(hue == null || (hue >= 0 && hue <= 360));
     assert(saturation == null || (saturation >= 0 && saturation <= 100));
-    assert(perceivedBrightness == null ||
-        (perceivedBrightness >= 0 && perceivedBrightness <= 100));
+    assert(
+      perceivedBrightness == null ||
+          (perceivedBrightness >= 0 && perceivedBrightness <= 100),
+    );
     assert(alpha == null || (alpha >= 0 && alpha <= 255));
     return HspColor(
       hue ?? this.hue,
@@ -186,33 +195,38 @@ class HspColor extends ColorModel {
   /// Returns a fixed-length list containing the [hue], [saturation],
   /// and [perceivedBrightness] values, in that order.
   @override
-  List<num> toList() =>
-      List<num>.from(<num>[hue, saturation, perceivedBrightness],
-          growable: false);
+  List<num> toList() => List<num>.from(<num>[
+    hue,
+    saturation,
+    perceivedBrightness,
+  ], growable: false);
 
   /// Returns a fixed-length list containing the [hue], [saturation],
   /// [perceivedBrightness], and [alpha] values, in that order.
   @override
-  List<num> toListWithAlpha() =>
-      List<num>.from(<num>[hue, saturation, perceivedBrightness, alpha],
-          growable: false);
+  List<num> toListWithAlpha() => List<num>.from(<num>[
+    hue,
+    saturation,
+    perceivedBrightness,
+    alpha,
+  ], growable: false);
 
   /// Returns a fixed-length list containing the [hue], [saturation],
   /// and [perceivedBrightness] values factored to be on 0 to 1 scale.
   List<double> toFactoredList() => List<double>.from(<double>[
-        hue / 360,
-        saturation / 100,
-        perceivedBrightness / 100,
-      ], growable: false);
+    hue / 360,
+    saturation / 100,
+    perceivedBrightness / 100,
+  ], growable: false);
 
   /// Returns a fixed-length list containing the [hue], [saturation],
   /// [perceivedBrightness], and [alpha] values factored to be on 0 to 1 scale.
   List<double> toFactoredListWithAlpha() => List<double>.from(<double>[
-        hue / 360,
-        saturation / 100,
-        perceivedBrightness / 100,
-        alpha / 255,
-      ], growable: false);
+    hue / 360,
+    saturation / 100,
+    perceivedBrightness / 100,
+    alpha / 255,
+  ], growable: false);
 
   /// {@template color_models.HspColor.from}
   ///
@@ -307,10 +321,14 @@ class HspColor extends ColorModel {
     assert(maxHue >= 0 && maxHue <= 360);
     assert(minSaturation >= 0 && minSaturation <= maxSaturation);
     assert(maxSaturation >= minSaturation && maxSaturation <= 100);
-    assert(minPerceivedBrightness >= 0 &&
-        minPerceivedBrightness <= maxPerceivedBrightness);
-    assert(maxPerceivedBrightness >= minPerceivedBrightness &&
-        maxPerceivedBrightness <= 100);
+    assert(
+      minPerceivedBrightness >= 0 &&
+          minPerceivedBrightness <= maxPerceivedBrightness,
+    );
+    assert(
+      maxPerceivedBrightness >= minPerceivedBrightness &&
+          maxPerceivedBrightness <= 100,
+    );
     return HspColor(
       ColorMath.randomHue(minHue, maxHue, seed),
       ColorMath.random(minSaturation, maxSaturation, seed),

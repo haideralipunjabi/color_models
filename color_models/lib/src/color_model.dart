@@ -58,11 +58,12 @@ abstract class ColorModel {
   ///
   /// Ranges from `0.0` (black) to `1.0` (white), unless the `lightness` value
   /// also falls outside of that range.
-  double get chroma => math
-      .pow((toOklabColor().lightness + 0.028) / 1.028, 6.9)
-      .roundToPrecision(10)
-      .clamp(0, 1)
-      .toDouble();
+  double get chroma =>
+      math
+          .pow((toOklabColor().lightness + 0.028) / 1.028, 6.9)
+          .roundToPrecision(10)
+          .clamp(0, 1)
+          .toDouble();
 
   /// The saturation value of this color. Color spaces without a saturation
   /// value will be converted to HSL to retrieve the value.
@@ -87,13 +88,18 @@ abstract class ColorModel {
   /// Interpolates to [step] between `this` and [end].
   ColorModel interpolate(ColorModel end, double step) {
     end = convert(end);
-    final valuesA = this is RgbColor
-        ? (this as RgbColor).toPreciseListWithAlpha()
-        : toListWithAlpha();
+    final valuesA =
+        this is RgbColor
+            ? (this as RgbColor).toPreciseListWithAlpha()
+            : toListWithAlpha();
     final valuesB =
         end is RgbColor ? end.toPreciseListWithAlpha() : end.toListWithAlpha();
-    return withValues(List<num>.generate(valuesA.length,
-        (index) => _interpolateValue(valuesA[index], valuesB[index], step)));
+    return withColorValues(
+      List<num>.generate(
+        valuesA.length,
+        (index) => _interpolateValue(valuesA[index], valuesB[index], step),
+      ),
+    );
   }
 
   /// Returns the interpolated [steps] between this color and [color].
@@ -114,14 +120,16 @@ abstract class ColorModel {
     assert(steps > 0);
 
     final colorA = colorSpace != null ? colorSpace.from(this) : this;
-    final valuesA = colorA is RgbColor
-        ? colorA.toPreciseListWithAlpha()
-        : colorA.toListWithAlpha();
+    final valuesA =
+        colorA is RgbColor
+            ? colorA.toPreciseListWithAlpha()
+            : colorA.toListWithAlpha();
 
     final colorB = colorSpace != null ? colorSpace.from(color) : convert(color);
-    final valuesB = colorB is RgbColor
-        ? colorB.toPreciseListWithAlpha()
-        : colorB.toListWithAlpha();
+    final valuesB =
+        colorB is RgbColor
+            ? colorB.toPreciseListWithAlpha()
+            : colorB.toListWithAlpha();
 
     final colors = <ColorModel>[];
     final slice = 1 / (steps + 1);
@@ -131,7 +139,7 @@ abstract class ColorModel {
       for (var j = 0; j < valuesA.length; j++) {
         values.add(_interpolateValue(valuesA[j], valuesB[j], step));
       }
-      colors.add(colorA.withValues(values));
+      colors.add(colorA.withColorValues(values));
     }
 
     if (!excludeOriginalColors) {
@@ -198,7 +206,7 @@ abstract class ColorModel {
   ///
   /// [values] should contain one value for each parameter of the color space;
   /// the alpha value is optional.
-  ColorModel withValues(List<num> values);
+  ColorModel withColorValues(List<num> values);
 
   /// Returns a copy of this color modified with the provided values.
   ColorModel copyWith({int? alpha});
@@ -472,9 +480,9 @@ extension AugmentColorModels on Iterable<ColorModel> {
   ///
   /// {@endtemplate}
   List<ColorModel> convertTo(ColorSpace colorSpace) {
-    return List<ColorModel>.from(this)
-        .map<ColorModel>((color) => colorSpace.from(color))
-        .toList();
+    return List<ColorModel>.from(
+      this,
+    ).map<ColorModel>((color) => colorSpace.from(color)).toList();
   }
 
   /// {@template color_models.AugumentColorModels.getColorAt}

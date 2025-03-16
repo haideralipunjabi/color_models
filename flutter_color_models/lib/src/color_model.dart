@@ -68,7 +68,7 @@ abstract class ColorModel implements cm.ColorModel, Color {
   ColorModel withOpacity(double opacity);
 
   @override
-  ColorModel withValues(List<num> values);
+  ColorModel withColorValues(List<num> values);
 
   @override
   ColorModel copyWith({int? alpha});
@@ -128,8 +128,12 @@ extension LerpToColor on Color {
     bool excludeOriginalColors = false,
   }) {
     assert(steps > 0);
-    return toRgbColor().lerpTo(color.toRgbColor(), steps,
-        colorSpace: colorSpace, excludeOriginalColors: excludeOriginalColors);
+    return toRgbColor().lerpTo(
+      color.toRgbColor(),
+      steps,
+      colorSpace: colorSpace,
+      excludeOriginalColors: excludeOriginalColors,
+    );
   }
 
   /// Interpolates to the defined [step] between this color and [end].
@@ -297,8 +301,12 @@ extension AugmentColorModels on Iterable<ColorModel> {
   }) {
     assert(stops == null || stops.length == length);
     return cast<cm.ColorModel>()
-        .augment(newLength,
-            stops: stops, colorSpace: colorSpace, invert: invert)
+        .augment(
+          newLength,
+          stops: stops,
+          colorSpace: colorSpace,
+          invert: invert,
+        )
         .cast<ColorModel>();
   }
 
@@ -328,8 +336,12 @@ extension AugmentColors on Iterable<Color> {
     bool invert = false,
   }) {
     assert(stops == null || stops.length == length);
-    return toColorModels().cast<ColorModel>().augment(newLength,
-        stops: stops, colorSpace: colorSpace, invert: invert);
+    return toColorModels().cast<ColorModel>().augment(
+      newLength,
+      stops: stops,
+      colorSpace: colorSpace,
+      invert: invert,
+    );
   }
 
   /// Returns this iterable as a list of [ColorModel]s.

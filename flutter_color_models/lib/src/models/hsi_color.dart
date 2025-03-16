@@ -10,16 +10,12 @@ class HsiColor extends cm.HsiColor
     with AsColor, RgbGetters, CastToColor
     implements ColorModel {
   /// {@macro color_models.HsiColor.constructor}
-  const HsiColor(
-    num hue,
-    num saturation,
-    num intensity, [
-    int alpha = 255,
-  ])  : assert(hue >= 0 && hue <= 360),
-        assert(saturation >= 0 && saturation <= 100),
-        assert(intensity >= 0 && intensity <= 100),
-        assert(alpha >= 0 && alpha <= 255),
-        super(hue, saturation, intensity, alpha);
+  const HsiColor(num hue, num saturation, num intensity, [int alpha = 255])
+    : assert(hue >= 0 && hue <= 360),
+      assert(saturation >= 0 && saturation <= 100),
+      assert(intensity >= 0 && intensity <= 100),
+      assert(alpha >= 0 && alpha <= 255),
+      super(hue, saturation, intensity, alpha);
 
   @override
   int get value => toColor().value;
@@ -39,9 +35,12 @@ class HsiColor extends cm.HsiColor
   }) {
     assert(steps > 0);
     return super
-        .lerpTo(color, steps,
-            colorSpace: colorSpace,
-            excludeOriginalColors: excludeOriginalColors)
+        .lerpTo(
+          color,
+          steps,
+          colorSpace: colorSpace,
+          excludeOriginalColors: excludeOriginalColors,
+        )
         .map<HsiColor>((color) => color.cast())
         .toList();
   }
@@ -110,7 +109,7 @@ class HsiColor extends cm.HsiColor
   }
 
   @override
-  HsiColor withValues(List<num> values) {
+  HsiColor withColorValues(List<num> values) {
     assert(values.length == 3 || values.length == 4);
     assert(values[0] >= 0 && values[0] <= 360);
     assert(values[1] >= 0 && values[1] <= 100);

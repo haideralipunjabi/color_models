@@ -16,12 +16,12 @@ class CmykColor extends cm.CmykColor
     num yellow,
     num black, [
     int alpha = 255,
-  ])  : assert(cyan >= 0 && cyan <= 100),
-        assert(magenta >= 0 && magenta <= 100),
-        assert(yellow >= 0 && yellow <= 100),
-        assert(black >= 0 && black <= 100),
-        assert(alpha >= 0 && alpha <= 255),
-        super(cyan, magenta, yellow, black, alpha);
+  ]) : assert(cyan >= 0 && cyan <= 100),
+       assert(magenta >= 0 && magenta <= 100),
+       assert(yellow >= 0 && yellow <= 100),
+       assert(black >= 0 && black <= 100),
+       assert(alpha >= 0 && alpha <= 255),
+       super(cyan, magenta, yellow, black, alpha);
 
   @override
   int get value => toColor().value;
@@ -41,9 +41,12 @@ class CmykColor extends cm.CmykColor
   }) {
     assert(steps > 0);
     return super
-        .lerpTo(color, steps,
-            colorSpace: colorSpace,
-            excludeOriginalColors: excludeOriginalColors)
+        .lerpTo(
+          color,
+          steps,
+          colorSpace: colorSpace,
+          excludeOriginalColors: excludeOriginalColors,
+        )
         .map<CmykColor>((color) => color.cast())
         .toList();
   }
@@ -113,7 +116,7 @@ class CmykColor extends cm.CmykColor
   }
 
   @override
-  CmykColor withValues(List<num> values) {
+  CmykColor withColorValues(List<num> values) {
     assert(values.length == 4 || values.length == 5);
     assert(values[0] >= 0 && values[0] <= 100);
     assert(values[1] >= 0 && values[1] <= 100);
@@ -178,8 +181,13 @@ class CmykColor extends cm.CmykColor
     assert(values[3] >= 0 && values[3] <= 1);
     if (values.length == 5) assert(values[4] >= 0 && values[4] <= 1);
     final alpha = values.length == 5 ? (values[4] * 255).round() : 255;
-    return CmykColor(values[0] * 100, values[1] * 100, values[2] * 100,
-        values[3] * 100, alpha);
+    return CmykColor(
+      values[0] * 100,
+      values[1] * 100,
+      values[2] * 100,
+      values[3] * 100,
+      alpha,
+    );
   }
 
   /// {@macro color_models.CmykColor.random}

@@ -38,7 +38,7 @@
 * Implemented the Oklab color space as [OklabColor].
 
 * Added the [castTo], [convert], [copyWith], [interpolate], and
-[withValues] methods to every color model.
+[withColorValues] methods to every color model.
 
 * Deprecated the `withXXX` methods being replaced by the [copyWith] method.
 

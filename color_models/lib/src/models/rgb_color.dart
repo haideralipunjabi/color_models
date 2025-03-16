@@ -28,19 +28,15 @@ class RgbColor extends ColorModel {
   /// [alpha] must be `>= 0` and `<= 255`.
   ///
   /// {@endtemplate}
-  const RgbColor(
-    num red,
-    num green,
-    num blue, [
-    int alpha = 255,
-  ])  : assert(red >= 0 && red <= 255),
-        assert(green >= 0 && green <= 255),
-        assert(blue >= 0 && blue <= 255),
-        assert(alpha >= 0 && alpha <= 255),
-        _red = red,
-        _green = green,
-        _blue = blue,
-        super(alpha: alpha);
+  const RgbColor(num red, num green, num blue, [int alpha = 255])
+    : assert(red >= 0 && red <= 255),
+      assert(green >= 0 && green <= 255),
+      assert(blue >= 0 && blue <= 255),
+      assert(alpha >= 0 && alpha <= 255),
+      _red = red,
+      _green = green,
+      _blue = blue,
+      super(alpha: alpha);
 
   /// The red value of this color.
   ///
@@ -84,9 +80,12 @@ class RgbColor extends ColorModel {
   }) {
     assert(steps > 0);
     return super
-        .lerpTo(color, steps,
-            colorSpace: colorSpace,
-            excludeOriginalColors: excludeOriginalColors)
+        .lerpTo(
+          color,
+          steps,
+          colorSpace: colorSpace,
+          excludeOriginalColors: excludeOriginalColors,
+        )
         .cast<RgbColor>();
   }
 
@@ -113,16 +112,22 @@ class RgbColor extends ColorModel {
   RgbColor warmer(num amount, {bool relative = true}) {
     assert(amount > 0);
     if (relative) assert(amount <= 100);
-    return ColorAdjustments.warmer(this, amount, relative: relative)
-        .toRgbColor();
+    return ColorAdjustments.warmer(
+      this,
+      amount,
+      relative: relative,
+    ).toRgbColor();
   }
 
   @override
   RgbColor cooler(num amount, {bool relative = true}) {
     assert(amount > 0);
     if (relative) assert(amount <= 100);
-    return ColorAdjustments.cooler(this, amount, relative: relative)
-        .toRgbColor();
+    return ColorAdjustments.cooler(
+      this,
+      amount,
+      relative: relative,
+    ).toRgbColor();
   }
 
   /// Returns this [RgbColor] modified with the provided [hue] value.
@@ -151,7 +156,7 @@ class RgbColor extends ColorModel {
   }
 
   @override
-  RgbColor withValues(List<num> values) {
+  RgbColor withColorValues(List<num> values) {
     assert(values.length == 3 || values.length == 4);
     assert(values[0] >= 0 && values[0] <= 255);
     assert(values[1] >= 0 && values[1] <= 255);

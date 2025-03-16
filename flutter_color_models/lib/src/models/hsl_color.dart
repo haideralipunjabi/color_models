@@ -10,16 +10,12 @@ class HslColor extends cm.HslColor
     with AsColor, RgbGetters, CastToColor
     implements ColorModel {
   /// {@macro color_models.HslColor.constructor}
-  const HslColor(
-    num hue,
-    num saturation,
-    num lightness, [
-    int alpha = 255,
-  ])  : assert(hue >= 0 && hue <= 360),
-        assert(saturation >= 0 && saturation <= 100),
-        assert(lightness >= 0 && lightness <= 100),
-        assert(alpha >= 0 && alpha <= 255),
-        super(hue, saturation, lightness, alpha);
+  const HslColor(num hue, num saturation, num lightness, [int alpha = 255])
+    : assert(hue >= 0 && hue <= 360),
+      assert(saturation >= 0 && saturation <= 100),
+      assert(lightness >= 0 && lightness <= 100),
+      assert(alpha >= 0 && alpha <= 255),
+      super(hue, saturation, lightness, alpha);
 
   @override
   int get value => toColor().value;
@@ -39,9 +35,12 @@ class HslColor extends cm.HslColor
   }) {
     assert(steps > 0);
     return super
-        .lerpTo(color, steps,
-            colorSpace: colorSpace,
-            excludeOriginalColors: excludeOriginalColors)
+        .lerpTo(
+          color,
+          steps,
+          colorSpace: colorSpace,
+          excludeOriginalColors: excludeOriginalColors,
+        )
         .map<HslColor>((color) => color.cast())
         .toList();
   }
@@ -110,7 +109,7 @@ class HslColor extends cm.HslColor
   }
 
   @override
-  HslColor withValues(List<num> values) {
+  HslColor withColorValues(List<num> values) {
     assert(values.length == 3 || values.length == 4);
     assert(values[0] >= 0 && values[0] <= 360);
     assert(values[1] >= 0 && values[1] <= 100);

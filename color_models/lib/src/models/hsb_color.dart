@@ -26,16 +26,12 @@ class HsbColor extends ColorModel {
   /// [alpha] must be `>= 0` and `<= 255`.
   ///
   /// {@endtemplate}
-  const HsbColor(
-    this.hue,
-    this.saturation,
-    this.brightness, [
-    int alpha = 255,
-  ])  : assert(hue >= 0 && hue <= 360),
-        assert(saturation >= 0 && saturation <= 100),
-        assert(brightness >= 0 && brightness <= 100),
-        assert(alpha >= 0 && alpha <= 255),
-        super(alpha: alpha);
+  const HsbColor(this.hue, this.saturation, this.brightness, [int alpha = 255])
+    : assert(hue >= 0 && hue <= 360),
+      assert(saturation >= 0 && saturation <= 100),
+      assert(brightness >= 0 && brightness <= 100),
+      assert(alpha >= 0 && alpha <= 255),
+      super(alpha: alpha);
 
   /// The hue value of this color.
   ///
@@ -80,9 +76,12 @@ class HsbColor extends ColorModel {
   }) {
     assert(steps > 0);
     return super
-        .lerpTo(color, steps,
-            colorSpace: colorSpace,
-            excludeOriginalColors: excludeOriginalColors)
+        .lerpTo(
+          color,
+          steps,
+          colorSpace: colorSpace,
+          excludeOriginalColors: excludeOriginalColors,
+        )
         .cast<HsbColor>();
   }
 
@@ -141,7 +140,7 @@ class HsbColor extends ColorModel {
   }
 
   @override
-  HsbColor withValues(List<num> values) {
+  HsbColor withColorValues(List<num> values) {
     assert(values.length == 3 || values.length == 4);
     assert(values[0] >= 0 && values[0] <= 360);
     assert(values[1] >= 0 && values[1] <= 100);
@@ -151,12 +150,7 @@ class HsbColor extends ColorModel {
   }
 
   @override
-  HsbColor copyWith({
-    num? hue,
-    num? saturation,
-    num? brightness,
-    int? alpha,
-  }) {
+  HsbColor copyWith({num? hue, num? saturation, num? brightness, int? alpha}) {
     assert(hue == null || (hue >= 0 && hue <= 360));
     assert(saturation == null || (saturation >= 0 && saturation <= 100));
     assert(brightness == null || (brightness >= 0 && brightness <= 100));
@@ -184,26 +178,29 @@ class HsbColor extends ColorModel {
   /// Returns a fixed-length list containing the [hue], [saturation],
   /// [brightness], and [alpha] values, in that order.
   @override
-  List<num> toListWithAlpha() =>
-      List<num>.from(<num>[hue, saturation, brightness, alpha],
-          growable: false);
+  List<num> toListWithAlpha() => List<num>.from(<num>[
+    hue,
+    saturation,
+    brightness,
+    alpha,
+  ], growable: false);
 
   /// Returns a fixed-length list containing the [hue], [saturation],
   /// and [brightness] values factored to be on 0 to 1 scale.
   List<double> toFactoredList() => List<double>.from(<double>[
-        hue / 360,
-        saturation / 100,
-        brightness / 100,
-      ], growable: false);
+    hue / 360,
+    saturation / 100,
+    brightness / 100,
+  ], growable: false);
 
   /// Returns a fixed-length list containing the [hue], [saturation],
   /// [brightness], and [alpha] values factored to be on 0 to 1 scale.
   List<double> toFactoredListWithAlpha() => List<double>.from(<double>[
-        hue / 360,
-        saturation / 100,
-        brightness / 100,
-        alpha / 255,
-      ], growable: false);
+    hue / 360,
+    saturation / 100,
+    brightness / 100,
+    alpha / 255,
+  ], growable: false);
 
   /// {@template color_models.HsbColor.from}
   ///

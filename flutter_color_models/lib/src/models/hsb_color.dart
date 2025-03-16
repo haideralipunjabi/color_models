@@ -10,16 +10,12 @@ class HsbColor extends cm.HsbColor
     with AsColor, RgbGetters, CastToColor
     implements ColorModel {
   /// {@macro color_models.HsbColor.constructor}
-  const HsbColor(
-    num hue,
-    num saturation,
-    num brightness, [
-    int alpha = 255,
-  ])  : assert(hue >= 0 && hue <= 360),
-        assert(saturation >= 0 && saturation <= 100),
-        assert(brightness >= 0 && brightness <= 100),
-        assert(alpha >= 0 && alpha <= 255),
-        super(hue, saturation, brightness, alpha);
+  const HsbColor(num hue, num saturation, num brightness, [int alpha = 255])
+    : assert(hue >= 0 && hue <= 360),
+      assert(saturation >= 0 && saturation <= 100),
+      assert(brightness >= 0 && brightness <= 100),
+      assert(alpha >= 0 && alpha <= 255),
+      super(hue, saturation, brightness, alpha);
 
   @override
   int get value => toColor().value;
@@ -39,9 +35,12 @@ class HsbColor extends cm.HsbColor
   }) {
     assert(steps > 0);
     return super
-        .lerpTo(color, steps,
-            colorSpace: colorSpace,
-            excludeOriginalColors: excludeOriginalColors)
+        .lerpTo(
+          color,
+          steps,
+          colorSpace: colorSpace,
+          excludeOriginalColors: excludeOriginalColors,
+        )
         .map<HsbColor>((color) => color.cast())
         .toList();
   }
@@ -110,7 +109,7 @@ class HsbColor extends cm.HsbColor
   }
 
   @override
-  HsbColor withValues(List<num> values) {
+  HsbColor withColorValues(List<num> values) {
     assert(values.length == 3 || values.length == 4);
     assert(values[0] >= 0 && values[0] <= 360);
     assert(values[1] >= 0 && values[1] <= 100);
@@ -120,12 +119,7 @@ class HsbColor extends cm.HsbColor
   }
 
   @override
-  HsbColor copyWith({
-    num? hue,
-    num? saturation,
-    num? brightness,
-    int? alpha,
-  }) {
+  HsbColor copyWith({num? hue, num? saturation, num? brightness, int? alpha}) {
     assert(hue == null || (hue >= 0 && hue <= 360));
     assert(saturation == null || (saturation >= 0 && saturation <= 100));
     assert(brightness == null || (brightness >= 0 && brightness <= 100));

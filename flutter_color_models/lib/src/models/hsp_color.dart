@@ -15,11 +15,11 @@ class HspColor extends cm.HspColor
     num saturation,
     num perceivedBrightness, [
     int alpha = 255,
-  ])  : assert(hue >= 0 && hue <= 360),
-        assert(saturation >= 0 && saturation <= 100),
-        assert(perceivedBrightness >= 0 && perceivedBrightness <= 100),
-        assert(alpha >= 0 && alpha <= 255),
-        super(hue, saturation, perceivedBrightness, alpha);
+  ]) : assert(hue >= 0 && hue <= 360),
+       assert(saturation >= 0 && saturation <= 100),
+       assert(perceivedBrightness >= 0 && perceivedBrightness <= 100),
+       assert(alpha >= 0 && alpha <= 255),
+       super(hue, saturation, perceivedBrightness, alpha);
 
   @override
   int get value => toColor().value;
@@ -39,9 +39,12 @@ class HspColor extends cm.HspColor
   }) {
     assert(steps > 0);
     return super
-        .lerpTo(color, steps,
-            colorSpace: colorSpace,
-            excludeOriginalColors: excludeOriginalColors)
+        .lerpTo(
+          color,
+          steps,
+          colorSpace: colorSpace,
+          excludeOriginalColors: excludeOriginalColors,
+        )
         .map<HspColor>((color) => color.cast())
         .toList();
   }
@@ -110,7 +113,7 @@ class HspColor extends cm.HspColor
   }
 
   @override
-  HspColor withValues(List<num> values) {
+  HspColor withColorValues(List<num> values) {
     assert(values.length == 3 || values.length == 4);
     assert(values[0] >= 0 && values[0] <= 360);
     assert(values[1] >= 0 && values[1] <= 100);
@@ -128,8 +131,10 @@ class HspColor extends cm.HspColor
   }) {
     assert(hue == null || (hue >= 0 && hue <= 360));
     assert(saturation == null || (saturation >= 0 && saturation <= 100));
-    assert(perceivedBrightness == null ||
-        (perceivedBrightness >= 0 && perceivedBrightness <= 100));
+    assert(
+      perceivedBrightness == null ||
+          (perceivedBrightness >= 0 && perceivedBrightness <= 100),
+    );
     assert(alpha == null || (alpha >= 0 && alpha <= 255));
     return HspColor(
       hue ?? this.hue,
@@ -188,10 +193,14 @@ class HspColor extends cm.HspColor
     assert(maxHue >= 0 && maxHue <= 360);
     assert(minSaturation >= 0 && minSaturation <= maxSaturation);
     assert(maxSaturation >= minSaturation && maxSaturation <= 100);
-    assert(minPerceivedBrightness >= 0 &&
-        minPerceivedBrightness <= maxPerceivedBrightness);
-    assert(maxPerceivedBrightness >= minPerceivedBrightness &&
-        maxPerceivedBrightness <= 100);
+    assert(
+      minPerceivedBrightness >= 0 &&
+          minPerceivedBrightness <= maxPerceivedBrightness,
+    );
+    assert(
+      maxPerceivedBrightness >= minPerceivedBrightness &&
+          maxPerceivedBrightness <= 100,
+    );
     return cm.HspColor.random(
       minHue: minHue,
       maxHue: maxHue,
